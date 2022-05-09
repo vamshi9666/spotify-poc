@@ -11,7 +11,7 @@ import React, {
 
 import { IoMdPause, IoMdPlayCircle, IoMdSearch } from "react-icons/io";
 import { useDebounce } from "usehooks-ts";
-import { ITrack } from "./lib/types/spotify";
+import { ITrack } from "../lib/types/spotify";
 
 const Home: NextPage = () => {
   const [loading, setLoading] = useState(true);
