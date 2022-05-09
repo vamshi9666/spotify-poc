@@ -34,7 +34,8 @@ export const getToken = async () => {
   });
   const data = await req.json();
 
-  return data.access_token;
+  // @ts-ignore
+  return data.access_token || "";
 };
 
 export default async function handler(
@@ -67,6 +68,7 @@ export default async function handler(
 
     console.log("authToken", data);
 
+    // @ts-ignore
     const items: ITrack[] = data?.tracks?.items?.map((item: any) => {
       return {
         id: item.id,

@@ -45,20 +45,28 @@ const Home: NextPage = () => {
     }
   }, [query]);
 
-  const onTrackTPlay = useCallback(async (track: ITrack) => {
-    if (track.previewUrl) {
-      setSelectedTrack(track);
-    } else {
-      const previewUrl = await fetch(
-        `/api/get-preview-url?id=${track.id}`
-      ).then((res) => res.json());
-      console.log("previewUrl", previewUrl);
-      setSelectedTrack({
-        ...track,
-        previewUrl: previewUrl.data.previewUrl,
-      });
-    }
-  }, []);
+  const onTrackTPlay = useCallback(
+    async (track: ITrack) => {
+      if (selectedTrack) {
+        setSelectedTrack(null);
+        return;
+      }
+
+      if (track.previewUrl) {
+        setSelectedTrack(track);
+      } else {
+        const previewUrl = await fetch(
+          `/api/get-preview-url?id=${track.id}`
+        ).then((res) => res.json());
+        console.log("previewUrl", previewUrl);
+        setSelectedTrack({
+          ...track,
+          previewUrl: previewUrl.data.previewUrl,
+        });
+      }
+    },
+    [selectedTrack]
+  );
 
   const tracksList = useMemo(() => {
     return tracks.map((track) => {
@@ -67,6 +75,7 @@ const Home: NextPage = () => {
         <TrackItem
           {...track}
           key={track.url}
+          {...{ isPlaying }}
           onTogglePlay={() => {
             onTrackTPlay(track);
           }}
